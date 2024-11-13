@@ -278,9 +278,21 @@ function OrderDetail() {
 
   return (
     <VStack align="start" gap={14} ml="8rem">
-      <Text fontSize="2rem" fontWeight="bold">
-        Order Details:
-      </Text>
+      <Flex w="100%" align="center" justify="space-between">
+        <Text fontSize="2rem" fontWeight="bold">
+          Order Details:
+        </Text>
+        <Button
+          bg="#CE1567"
+          color="#FFFFFF"
+          _hover={{ bg: '#bf0055' }}
+          onClick={() => {
+            navigate('/OrderList');
+          }}
+        >
+          Add Orders
+        </Button>
+      </Flex>
       <CheckboxGroup>
         <HStack
           gap={8}
@@ -348,65 +360,73 @@ function OrderDetail() {
               </Tr>
             </Thead>
             <Tbody>
-              {filteredOrders.map((order) => (
-                <Tr key={order._id}>
-                  <Td textAlign="center">{order._id}</Td>
-                  <Td textAlign="center">₹{order.orderTotal}</Td>
-                  <Td textAlign="center">{order.pickupDate}</Td>
-                  <Td textAlign="center">{getTotalQuantity(order.items)}</Td>
-                  <Td textAlign="center">
-                    <Tag
-                      size="lg"
-                      colorScheme={order.acceptedStatus ? 'green' : 'red'}
-                    >
-                      {order.acceptedStatus ? 'Accepted' : 'Not Accepted'}
-                    </Tag>
-                  </Td>
-                  <Td textAlign="center">
-                    <Tag
-                      size="lg"
-                      colorScheme={order.deliveredStatus ? 'green' : 'red'}
-                    >
-                      {order.deliveredStatus ? 'Delivered' : 'Not Delivered'}
-                    </Tag>
-                  </Td>
-                  <Td textAlign="center">
-                    <Flex gap={4} w="fit-content">
-                      <Button
-                        color="#ce1567"
-                        onClick={() => handleCardClick(order)}
+              {filteredOrders.length === 0 ? (
+                <Center w="75%" position="absolute" mt="5rem">
+                  <Text fontSize="1.5rem" fontWeight={600}>
+                    NO ORDERS
+                  </Text>
+                </Center>
+              ) : (
+                filteredOrders.map((order) => (
+                  <Tr key={order._id}>
+                    <Td textAlign="center">{order._id}</Td>
+                    <Td textAlign="center">₹{order.orderTotal}</Td>
+                    <Td textAlign="center">{order.pickupDate}</Td>
+                    <Td textAlign="center">{getTotalQuantity(order.items)}</Td>
+                    <Td textAlign="center">
+                      <Tag
+                        size="lg"
+                        colorScheme={order.acceptedStatus ? 'green' : 'red'}
                       >
-                        View Details
-                      </Button>
-                      <Button
-                        color="#ffffff"
-                        bgColor="green.500"
-                        isDisabled={order.paid}
-                        display={
-                          !order.acceptedStatus || !order.pickUpStatus
-                            ? 'none'
-                            : 'block'
-                        }
-                        _hover={{ bgColor: 'green.600' }}
-                        onClick={() => handlePayment(order)}
+                        {order.acceptedStatus ? 'Accepted' : 'Not Accepted'}
+                      </Tag>
+                    </Td>
+                    <Td textAlign="center">
+                      <Tag
+                        size="lg"
+                        colorScheme={order.deliveredStatus ? 'green' : 'red'}
                       >
-                        Pay
-                      </Button>
-                      <IconButton
-                        colorScheme="red"
-                        aria-label="Delete Order"
-                        icon={<MdDelete size={24} />}
-                        // button should be abled either when the order is not accepted, or when the order is paid and delivered.
-                        isDisabled={
-                          order.acceptedStatus &&
-                          (!order.paid || !order.deliveredStatus)
-                        }
-                        onClick={() => handleDeleteOrder(order._id)}
-                      />
-                    </Flex>
-                  </Td>
-                </Tr>
-              ))}
+                        {order.deliveredStatus ? 'Delivered' : 'Not Delivered'}
+                      </Tag>
+                    </Td>
+                    <Td textAlign="center">
+                      <Flex gap={4} w="fit-content">
+                        <Button
+                          color="#ce1567"
+                          onClick={() => handleCardClick(order)}
+                        >
+                          View Details
+                        </Button>
+                        <Button
+                          color="#ffffff"
+                          bgColor="green.500"
+                          isDisabled={order.paid}
+                          display={
+                            !order.acceptedStatus || !order.pickUpStatus
+                              ? 'none'
+                              : 'block'
+                          }
+                          _hover={{ bgColor: 'green.600' }}
+                          onClick={() => handlePayment(order)}
+                        >
+                          Pay
+                        </Button>
+                        <IconButton
+                          colorScheme="red"
+                          aria-label="Delete Order"
+                          icon={<MdDelete size={24} />}
+                          // button should be abled either when the order is not accepted, or when the order is paid and delivered.
+                          isDisabled={
+                            order.acceptedStatus &&
+                            (!order.paid || !order.deliveredStatus)
+                          }
+                          onClick={() => handleDeleteOrder(order._id)}
+                        />
+                      </Flex>
+                    </Td>
+                  </Tr>
+                ))
+              )}
             </Tbody>
           </Table>
         </Box>
@@ -428,7 +448,7 @@ function OrderDetail() {
               </Text>
               <Divider my={2} />
               <Text fontSize="xl" fontWeight="bold">
-                <strong>Order Total:</strong> ${selectedOrder.orderTotal}
+                <strong>Order Total:</strong> ₹{selectedOrder.orderTotal}
               </Text>
               <Divider my={2} />
               <Grid templateColumns="repeat(2, 1fr)" gap={4}>
@@ -586,7 +606,7 @@ function OrderDetail() {
                               <Tr key={index}>
                                 <Td>{item.name}</Td>
                                 <Td>{item.quantity}</Td>
-                                <Td>${item.pricePerItem}</Td>
+                                <Td>₹{item.pricePerItem}</Td>
                               </Tr>
                             ))}
                           </Tbody>

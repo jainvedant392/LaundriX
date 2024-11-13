@@ -151,7 +151,7 @@ function ScheduleCard() {
       }
       clearSchedule();
       clearItems();
-      navigate('/OrderList');
+      navigate('/dashboard');
     } catch (err) {
       handleToast('Error', err.response.data.message, 'error');
     }

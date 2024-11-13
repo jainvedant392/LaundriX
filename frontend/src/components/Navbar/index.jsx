@@ -178,7 +178,7 @@ function Navbar() {
             <Menu>
               <MenuButton
                 as={Button}
-                borderRadius="0.5rem"
+                borderRadius="full"
                 variant="ghost"
                 cursor="pointer"
                 position="relative"

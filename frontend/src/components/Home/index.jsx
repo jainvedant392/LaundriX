@@ -8,16 +8,16 @@ import WorkingCard from './WorkingCard';
 function Main() {
   return (
     <Box pt="4rem">
-      <Center height="100vh">
+      <Center h="90vh">
         <Hero />
       </Center>
-      <Box height="100vh">
+      <Box h="90vh">
         <ServiceCard />
       </Box>
-      <Box height="100vh">
+      <Box h="90vh">
         <WorkingCard />
       </Box>
-      <Center height="100vh">
+      <Center h="100vh">
         <ContactSection />
       </Center>
     </Box>
