@@ -108,23 +108,24 @@ export default function LoginForm() {
   };
 
   // Method to handle forgot password
-  const handleForgotPassword = (e) => {
+  const handleForgotPassword = async (e) => {
     e.preventDefault();
     const email = initialRef.current.value;
     try {
       if (email) {
-        // eslint-disable-next-line
-        const response = forgotPassword(email);
-        handleToast(
-          'Success',
-          'Password reset link is sent to your email',
-          'success'
-        );
+        const response = await forgotPassword(email);
+        if (response.status === 200) {
+          handleToast(
+            'Success',
+            'Reset password link sent to your email',
+            'success'
+          );
+        }
       } else {
         throw new Error('Please enter your email');
       }
     } catch (error) {
-      handleToast('Error', error.message, 'error');
+      handleToast('Error', 'User not found', 'error');
     }
     onClose();
   };

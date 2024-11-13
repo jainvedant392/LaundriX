@@ -12,7 +12,7 @@ const login = (credentials) => {
 };
 
 const forgotPassword = (email) => {
-  return axios.post(`${API_URL}/forgot-password`, { email });
+  return axios.post(`${API_URL}/forgotpassword`, { email });
 };
 const signup = (credentials) => {
   return axios.post(`${API_URL}/signup`, credentials);
